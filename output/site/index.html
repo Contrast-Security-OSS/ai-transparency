@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contrast Security | AI Transparency</title>
+  <meta name="description" content="How Contrast Security uses AI — in our products and our operations. Full disclosure of AI features, models, data handling, and security controls.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ============================================================
+       SITE HEADER
+  ============================================================ -->
+  <header class="site-header">
+    <div class="header-inner container">
+      <div class="brand">
+        <img src="contrast-logo.svg" alt="Contrast Security" class="brand-logo">
+        <div class="brand-text">
+          <span class="brand-name">CONTRAST <span class="brand-name-security">SECURITY</span></span>
+          <span class="brand-divider">|</span>
+          <span class="brand-page">AI Transparency</span>
+        </div>
+      </div>
+      <div class="header-meta">
+        <span class="meta-item">Last updated: <strong id="last-updated-date">—</strong></span>
+        <span class="version-chip" id="version-chip">v—</span>
+      </div>
+    </div>
+
+    <div class="header-hero container">
+      <h1 class="hero-title">How We Use AI</h1>
+      <p class="hero-subtitle">
+        Full disclosure of every AI feature in our products and every third-party AI
+        service we rely on — including what data is processed, what controls are in
+        place, and which risk frameworks we align to.
+      </p>
+      <div class="framework-strip" id="framework-strip">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       CONTROLS BAR
+  ============================================================ -->
+  <div class="controls-bar">
+    <div class="container controls-inner">
+      <nav class="tabs" role="tablist" aria-label="Content sections">
+        <button class="tab active" role="tab" aria-selected="true" data-tab="features">
+          <span class="tab-icon">⬡</span>
+          AI in Products
+          <span class="tab-count" id="features-count">—</span>
+        </button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="subprocessors">
+          <span class="tab-icon">⬡</span>
+          AI Subprocessors
+          <span class="tab-count" id="subprocessors-count">—</span>
+        </button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="changelog">
+          <span class="tab-icon">⬡</span>
+          Change Log
+        </button>
+      </nav>
+
+      <div class="search-area" id="search-area">
+        <div class="search-wrap">
+          <svg class="search-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M13 13l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <input
+            type="search"
+            id="search-input"
+            class="search-input"
+            placeholder="Search features, models, controls…"
+            aria-label="Search"
+          >
+        </div>
+        <select id="status-filter" class="filter-select" aria-label="Filter by status">
+          <option value="">All statuses</option>
+          <option value="live">Live</option>
+          <option value="stub">Stub / Coming Soon</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MAIN CONTENT
+  ============================================================ -->
+  <main class="main-content">
+    <div class="container">
+
+      <!-- Product Features Tab -->
+      <section id="tab-features" class="tab-panel" role="tabpanel" aria-label="AI in Products">
+        <div class="section-intro">
+          <p>These are AI capabilities built into Contrast Security products that your team interacts with directly.</p>
+        </div>
+        <div class="cards-grid" id="features-grid">
+          <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Loading…</p>
+          </div>
+        </div>
+        <div class="empty-state hidden" id="features-empty">
+          <p>No features match your search.</p>
+        </div>
+      </section>
+
+      <!-- Subprocessors Tab -->
+      <section id="tab-subprocessors" class="tab-panel hidden" role="tabpanel" aria-label="AI Subprocessors">
+        <div class="section-intro">
+          <p>Third-party AI services that Contrast Security uses internally or as part of product features. Full subprocessor list available upon request.</p>
+        </div>
+        <div class="cards-grid" id="subprocessors-grid">
+          <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Loading…</p>
+          </div>
+        </div>
+        <div class="empty-state hidden" id="subprocessors-empty">
+          <p>No subprocessors match your search.</p>
+        </div>
+      </section>
+
+      <!-- Changelog Tab -->
+      <section id="tab-changelog" class="tab-panel hidden" role="tabpanel" aria-label="Change Log">
+        <div class="section-intro">
+          <p>A record of all updates to this page — what changed and when.</p>
+        </div>
+        <div id="changelog-content">
+          <!-- Rendered by JS -->
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <img src="contrast-logo.svg" alt="Contrast Security" class="footer-logo">
+        <span class="footer-brand-name">Contrast Security</span>
+      </div>
+      <div class="footer-links">
+        <a href="https://contrastsecurity.com/privacy" target="_blank" rel="noopener">Privacy Policy</a>
+        <a href="https://contrastsecurity.com/terms" target="_blank" rel="noopener">Terms of Service</a>
+        <a id="footer-contact" href="#">Contact Security Team</a>
+      </div>
+      <p class="footer-copy">&copy; <span id="footer-year"></span> Contrast Security, Inc. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+meta:
+  page_title: "Contrast Security AI Transparency"
+  tagline: "How we use AI — in our products and our operations"
+  description: >
+    Contrast Security is committed to the transparent, responsible use of artificial
+    intelligence. This page documents every AI feature in our products and every
+    third-party AI service we rely on — including what data is processed, what
+    controls are in place, and which risk frameworks we align to.
+  last_updated: "2026-03-05"
+  version: "1.0.0"
+  contact_email: "security@contrastsecurity.com"
+  contact_label: "security@contrastsecurity.com"
+
+frameworks:
+  - id: nist-ai-rmf
+    name: "NIST AI RMF"
+    url: "https://www.nist.gov/artificial-intelligence/ai-risk-management-framework"
+  - id: owasp-llm-top10
+    name: "OWASP LLM Top 10"
+    url: "https://owasp.org/www-project-top-10-for-large-language-model-applications/"
+  - id: eu-ai-act
+    name: "EU AI Act"
+    url: "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689"
+  - id: iso-42001
+    name: "ISO/IEC 42001"
+    url: "https://www.iso.org/standard/81230.html"
+
+product_features:
+  - id: smartfix
+    name: "SmartFix"
+    subtitle: "GitHub Action"
+    description: >
+      Automatically generates remediation code for security vulnerabilities detected
+      by Contrast Assess. Analyzes vulnerability taint flows and surrounding code
+      context to produce developer-reviewable fix suggestions directly in the CI/CD
+      pipeline.
+    model_provider: "Anthropic Claude (AWS Bedrock) or Customer BYOD"
+    data_inputs:
+      - "Vulnerability taint flow data"
+      - "Code snippet surrounding the detected vulnerability"
+    data_outputs:
+      - "Suggested remediation code patch"
+    human_in_loop: true
+    human_in_loop_detail: "Developer must review and approve all suggested fixes before they are applied to the codebase."
+    status: "live"
+    controls:
+      - "Customer BYOD supported: bring your own API key — data goes to your provider under your agreements"
+      - "Human developer review is required; no code is applied automatically"
+      - "Zero data retention via AWS Bedrock: data is not stored after inference"
+      - "No customer data is used to train Anthropic models"
+    frameworks:
+      - nist-ai-rmf
+      - owasp-llm-top10
+
+  - id: ai-how-to-fix
+    name: "AI How to Fix"
+    subtitle: "Intelligent Remediation Guidance"
+    description: >
+      Delivers AI-generated, context-aware remediation guidance for vulnerabilities
+      found by Contrast Assess. Produces step-by-step fix instructions and code
+      examples tailored to the specific vulnerability type, language, and framework
+      in the customer's application.
+    model_provider: "Anthropic Claude (AWS Bedrock)"
+    data_inputs:
+      - "Vulnerability assessment data (customer-specific)"
+      - "Vulnerability type, CWE classification, and severity"
+    data_outputs:
+      - "Step-by-step remediation instructions"
+      - "Language-specific code examples"
+    human_in_loop: true
+    human_in_loop_detail: "Security team review is integrated into the remediation workflow before guidance is acted upon."
+    status: "live"
+    controls:
+      - "Data processed exclusively via AWS Bedrock — governed by AWS Data Processing Addendum"
+      - "Zero data retention: no customer data is stored by Anthropic after inference"
+      - "No customer data is used to train Anthropic models"
+      - "Human security review integrated into the remediation workflow"
+    frameworks:
+      - nist-ai-rmf
+      - owasp-llm-top10
+      - eu-ai-act
+
+  - id: mcp-server
+    name: "MCP Server"
+    subtitle: "Model Context Protocol Integration"
+    description: >
+      Exposes Contrast Security assessment and runtime protection data to AI coding
+      assistants via the Model Context Protocol (MCP). Enables developers to query
+      vulnerability status, attack events, and protection coverage directly from
+      their AI-assisted development environment without leaving their workflow.
+    model_provider: "Customer BYOD"
+    data_inputs:
+      - "Contrast Assess vulnerability data (customer-specific, queried on demand)"
+      - "Contrast Protect runtime protection data (customer-specific, queried on demand)"
+    data_outputs:
+      - "Vulnerability and protection status in response to AI assistant queries"
+    human_in_loop: true
+    human_in_loop_detail: "Security team oversight governs integration configuration and data access scope."
+    status: "live"
+    controls:
+      - "Strictly Customer BYOD: Contrast does not transmit data to any AI model"
+      - "All AI processing occurs with the customer's chosen provider under the customer's data agreements"
+      - "Customer controls which data fields are accessible via MCP configuration"
+      - "MCP access requires authenticated Contrast credentials"
+    frameworks:
+      - nist-ai-rmf
+      - owasp-llm-top10
+
+  - id: customer-health-checker
+    name: "Customer Health Checker"
+    subtitle: "Internal Customer Support Tool"
+    description: >
+      Internal tool used by the Contrast Customer Support team to analyze customer
+      health signals and surface proactive support recommendations. Aggregates usage
+      metrics and engagement data to help support teams identify accounts that may
+      need assistance before issues escalate.
+    model_provider: "Google Gemini"
+    data_inputs:
+      - "Anonymized customer usage metrics"
+      - "Product engagement signals"
+    data_outputs:
+      - "Health assessment summary"
+      - "Recommended support actions"
+    human_in_loop: true
+    human_in_loop_detail: "Customer Support team reviews all outputs before taking action on any recommendation."
+    status: "live"
+    controls:
+      - "Access restricted to authorized Customer Support personnel only"
+      - "All outputs reviewed by a human team member before action is taken"
+      - "Governed by Google Cloud Data Processing Addendum"
+      - "No personally identifiable customer information is sent to the model"
+    frameworks:
+      - nist-ai-rmf
+
+subprocessors:
+  - id: anthropic-bedrock
+    name: "Anthropic (via AWS Bedrock)"
+    category: "Large Language Model"
+    description: >
+      Foundation model provider for AI-powered remediation features. All Anthropic
+      model calls are made exclusively through AWS Bedrock, which provides enterprise
+      data protection and zero-retention guarantees.
+    used_in:
+      - "AI How to Fix"
+      - "SmartFix (default provider)"
+    data_processed: "Vulnerability assessment data, code context, CWE classifications"
+    controls:
+      - "Zero data retention: data is not retained by Anthropic after inference"
+      - "No customer data is used to train Anthropic models"
+      - "Governed by AWS Bedrock Data Processing Addendum"
+      - "All traffic routed through AWS — no direct calls to Anthropic APIs"
+    website: "https://aws.amazon.com/bedrock/"
+    status: "stub"
+
+  - id: google-gemini
+    name: "Google Gemini"
+    category: "Large Language Model"
+    description: >
+      Large language model used for internal customer health analysis tooling.
+      Accessed via Google Cloud Vertex AI under standard enterprise data processing
+      agreements.
+    used_in:
+      - "Customer Health Checker"
+    data_processed: "Anonymized customer usage metrics and engagement signals"
+    controls:
+      - "Governed by Google Cloud Data Processing Addendum"
+      - "Data residency options available via Google Cloud regions"
+    website: "https://cloud.google.com/vertex-ai"
+    status: "stub"
+
+  - id: github-copilot
+    name: "GitHub Copilot"
+    category: "AI Coding Assistant"
+    description: >
+      AI coding assistant used by Contrast Security engineering teams for
+      internal software development. Not used in any customer-facing product feature.
+    used_in:
+      - "Internal engineering (all engineering teams)"
+    data_processed: "Internal source code and development context"
+    controls:
+      - "GitHub Copilot Business tier: code is not used to train GitHub or OpenAI models"
+      - "Governed by GitHub Copilot Business Data Protection Terms"
+      - "All suggestions reviewed by engineers before use"
+    website: "https://github.com/features/copilot"
+    status: "stub"
+
+  - id: datadog-ai
+    name: "Datadog AI"
+    category: "AI-Powered Observability"
+    description: >
+      AI-powered observability and operations tooling used by Contrast infrastructure
+      and engineering teams for monitoring, anomaly detection, and incident response.
+      Not used in any customer-facing product feature.
+    used_in:
+      - "Infrastructure operations (all engineering teams)"
+    data_processed: "System metrics, application logs, distributed traces"
+    controls:
+      - "Governed by Datadog Data Processing Agreement"
+      - "Limited to Contrast infrastructure telemetry — no customer application data"
+    website: "https://www.datadoghq.com/"
+    status: "stub"
+
+changelog:
+  - version: "1.0.0"
+    date: "2026-03-05"
+    changes:
+      - "Initial public release of the Contrast Security AI Transparency page"
+      - "Published 4 live product features: SmartFix, AI How to Fix, MCP Server, Customer Health Checker"
+      - "Published 4 AI subprocessors: Anthropic (Bedrock), Google Gemini, GitHub Copilot, Datadog AI"
+      - "Framework alignment documented: NIST AI RMF, OWASP LLM Top 10, EU AI Act, ISO/IEC 42001"

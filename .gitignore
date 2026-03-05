@@ -1,0 +1,14 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+
+# Generated — do not commit manually; built by CI
+output/site/data.json
+
+# Editor
+.vscode/
+.idea/
