@@ -64,7 +64,7 @@ commitment:
 frameworks:
   - id: nist-ai-rmf
     name: "NIST AI RMF"
-    url: "https://www.nist.gov/artificial-intelligence/ai-risk-management-framework"
+    url: "https://www.nist.gov/itl/ai-risk-management-framework"
   - id: owasp-llm-top10
     name: "OWASP LLM Top 10"
     url: "https://owasp.org/www-project-top-10-for-large-language-model-applications/"
