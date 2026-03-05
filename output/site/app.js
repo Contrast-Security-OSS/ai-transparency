@@ -11,7 +11,12 @@ let activeTab = 'features';
 
 // ── Data Loading ─────────────────────────────────────────────
 async function loadData() {
-  const response = await fetch('data.json');
+  // Append build timestamp to bust CDN/browser cache on each deployment.
+  // The build script stamps data-built with a Unix timestamp at build time.
+  // Fall back to Date.now() if the attribute is missing or still a placeholder.
+  const builtAttr = document.documentElement.dataset.built;
+  const cacheBust = (builtAttr && /^\d+$/.test(builtAttr)) ? builtAttr : Date.now();
+  const response = await fetch(`data.json?v=${cacheBust}`);
   if (!response.ok) throw new Error(`Failed to load data.json: ${response.status}`);
   return response.json();
 }

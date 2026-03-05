@@ -37,6 +37,16 @@ def build():
     with open(output_file, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
+    # Stamp index.html with a build timestamp so app.js can cache-bust data.json.
+    # Replaces any existing value of data-built (placeholder or prior timestamp).
+    import re, time
+    build_ts = str(int(time.time()))
+    html_file = root / "output" / "site" / "index.html"
+    html = html_file.read_text(encoding="utf-8")
+    html = re.sub(r'data-built="[^"]*"', f'data-built="{build_ts}"', html)
+    html_file.write_text(html, encoding="utf-8")
+    print(f"  Build timestamp: {build_ts}")
+
     feature_count = len(data.get("product_features", []))
     subprocessor_count = len(data.get("subprocessors", []))
     version = data.get("meta", {}).get("version", "unknown")
