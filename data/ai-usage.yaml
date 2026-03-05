@@ -407,16 +407,18 @@ subprocessors:
   - id: cubicsquared
     name: "CubicSquared"
     tier: "Tier 2"
-    category: "AI Business Services"
+    category: "AI Marketing Platform"
     description: >
-      AI-powered business services platform used by approved Contrast teams for
-      specific operational workflows under Restricted tier policy.
+      AI-powered B2B marketing engine used by Contrast's marketing team for
+      demand generation, campaign optimization, and pipeline acceleration workflows.
     used_in:
-      - "Specific operational workflows (Procurement-approved)"
-    data_processed: "Business process data relevant to approved workflows"
+      - "Marketing team (B2B demand generation and campaign workflows)"
+    data_processed: "Marketing campaign data, prospect and pipeline signals"
     controls:
       - "Tier 2 Restricted — Procurement approval required before use"
-      - "Governed by vendor Data Processing Agreement"
+      - "Governed by CubicSquared Data Processing Agreement"
+      - "No customer vulnerability or source code data shared with vendor"
+    website: "https://cubicsquared.ai"
     status: "active"
 
   - id: github
