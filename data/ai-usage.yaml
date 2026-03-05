@@ -7,7 +7,7 @@ meta:
     third-party AI service we rely on — including what data is processed, what
     controls are in place, and which risk frameworks we align to.
   last_updated: "2026-03-05"
-  version: "1.0.0"
+  version: "1.1.0"
   contact_email: "security@contrastsecurity.com"
   contact_label: "security@contrastsecurity.com"
 
@@ -182,79 +182,343 @@ product_features:
     frameworks:
       - nist-ai-rmf
 
+tier_definitions:
+  - tier: "Tier 1"
+    label: "General Use"
+    description: "Approved for all employees for productivity and writing. No procurement approval required."
+  - tier: "Tier 2"
+    label: "Restricted"
+    description: "Approved for source code handling or specific functions. Requires Procurement approval before use."
+  - tier: "Tier 3"
+    label: "R&D"
+    description: "Specific latitude for technical teams under CISO oversight. Additional controls apply."
+  - tier: "Tier 4"
+    label: "Prohibited"
+    description: "Any AI tool not explicitly listed in Tiers 1–3 is prohibited."
+
 subprocessors:
-  - id: anthropic-bedrock
-    name: "Anthropic (via AWS Bedrock)"
-    category: "Large Language Model"
+
+  # ── Tier 1: General Use ──────────────────────────────────────
+
+  - id: google-gemini-suite
+    name: "Google Gemini Suite"
+    subtitle: "Gemini, Gemini Code Assist, Gemini CLI"
+    tier: "Tier 1"
+    category: "AI / LLM"
     description: >
-      Foundation model provider for AI-powered remediation features. All Anthropic
-      model calls are made exclusively through AWS Bedrock, which provides enterprise
-      data protection and zero-retention guarantees.
+      Google's generative AI platform approved for company-wide use. Includes Gemini
+      (general assistant), Gemini Code Assist (IDE coding assistant), and Gemini CLI
+      (terminal-based AI tooling). Used across engineering, IT, and operational teams.
     used_in:
-      - "AI How to Fix"
-      - "SmartFix (default provider)"
+      - "Company-wide (IT, engineering, operations)"
+      - "Customer Health Checker"
+    data_processed: "Internal queries, code context, business communications"
+    controls:
+      - "Governed by Google Workspace and Google Cloud Data Processing Addendum"
+      - "Data residency options available via Google Cloud regions"
+      - "Enterprise data protection terms apply; data not used to train Google models"
+    website: "https://gemini.google.com"
+    status: "active"
+
+  - id: darktrace
+    name: "DarkTrace, Ltd."
+    tier: "Tier 1"
+    category: "AI-Powered Security"
+    description: >
+      AI-driven autonomous cybersecurity platform used for real-time threat detection,
+      network defense, and anomaly identification across Contrast Security infrastructure.
+    used_in:
+      - "Infrastructure security operations"
+    data_processed: "Network traffic patterns, system telemetry, security event data"
+    controls:
+      - "Governed by DarkTrace Master Services Agreement and Data Processing Agreement"
+      - "Data limited to Contrast infrastructure telemetry — no customer application data"
+      - "SOC 2 Type II certified vendor"
+    website: "https://darktrace.com"
+    status: "active"
+
+  - id: slack
+    name: "Slack Technologies, Inc."
+    subtitle: "A Salesforce Company"
+    tier: "Tier 1"
+    category: "Business Communication"
+    description: >
+      Enterprise business communication platform with AI-powered features (Slack AI)
+      used company-wide for internal collaboration, project coordination, and team
+      communication.
+    used_in:
+      - "Company-wide internal communication"
+    data_processed: "Internal messages, shared files, and collaboration data"
+    controls:
+      - "Governed by Slack Business+ Data Processing Addendum and Salesforce DPA"
+      - "Slack AI features governed by Slack AI Terms of Service"
+      - "Data encrypted in transit and at rest"
+    website: "https://slack.com"
+    status: "active"
+
+  # ── Tier 2: Restricted ───────────────────────────────────────
+
+  - id: openai-chatgpt
+    name: "OpenAI"
+    subtitle: "ChatGPT"
+    tier: "Tier 2"
+    category: "AI / LLM"
+    description: >
+      Large language model platform available to approved Contrast team members for
+      productivity workflows under Restricted tier policy. Requires Procurement approval
+      before use.
+    used_in:
+      - "Approved individual productivity (Procurement-approved roles)"
+    data_processed: "User-provided queries and prompts"
+    controls:
+      - "Tier 2 Restricted — Procurement approval required before use"
+      - "No proprietary customer data, source code, or vulnerability data permitted"
+      - "Governed by OpenAI Enterprise Terms of Service"
+      - "Team members must adhere to Contrast AI Usage Policy"
+    website: "https://openai.com"
+    status: "active"
+
+  - id: anthropic-claude-bedrock
+    name: "Anthropic Claude"
+    subtitle: "via AWS Bedrock"
+    tier: "Tier 2"
+    category: "AI / LLM"
+    description: >
+      Anthropic's Claude models accessed exclusively via AWS Bedrock. Used for
+      AI-powered remediation features in Contrast products, with enterprise-grade
+      zero-retention data protection.
+    used_in:
+      - "AI How to Fix (Intelligent Remediation Guidance)"
+      - "SmartFix (GitHub Action) — default provider"
     data_processed: "Vulnerability assessment data, code context, CWE classifications"
     controls:
       - "Zero data retention: data is not retained by Anthropic after inference"
       - "No customer data is used to train Anthropic models"
+      - "All traffic routed through AWS Bedrock — no direct calls to Anthropic APIs"
       - "Governed by AWS Bedrock Data Processing Addendum"
-      - "All traffic routed through AWS — no direct calls to Anthropic APIs"
     website: "https://aws.amazon.com/bedrock/"
-    status: "stub"
+    status: "active"
 
-  - id: google-gemini
-    name: "Google Gemini"
-    category: "Large Language Model"
+  - id: google-ai-studio
+    name: "Google AI Studio"
+    tier: "Tier 2"
+    category: "AI Development"
     description: >
-      Large language model used for internal customer health analysis tooling.
-      Accessed via Google Cloud Vertex AI under standard enterprise data processing
-      agreements.
+      Google's web-based platform for prototyping and experimenting with Gemini models.
+      Available to approved engineering teams for AI feature development and research
+      under Restricted tier controls.
     used_in:
-      - "Customer Health Checker"
-    data_processed: "Anonymized customer usage metrics and engagement signals"
+      - "Internal AI development and prototyping (approved engineering teams)"
+    data_processed: "Development queries, test prompts, experimental data"
     controls:
+      - "Tier 2 Restricted — Procurement approval required before use"
+      - "No production customer data permitted"
+      - "Governed by Google AI Studio Terms of Service"
+    website: "https://aistudio.google.com"
+    status: "active"
+
+  - id: google-vertex-ai
+    name: "Google Vertex AI"
+    tier: "Tier 2"
+    category: "AI Development"
+    description: >
+      Google Cloud's enterprise ML platform for building, deploying, and managing
+      AI models at scale. Used for AI-powered internal tooling and model deployment
+      workflows.
+    used_in:
+      - "Internal AI tooling and model deployment"
+      - "Customer Health Checker (internal support tool)"
+    data_processed: "Anonymized usage metrics, model inference queries"
+    controls:
+      - "Tier 2 Restricted — Procurement approval required before use"
       - "Governed by Google Cloud Data Processing Addendum"
       - "Data residency options available via Google Cloud regions"
     website: "https://cloud.google.com/vertex-ai"
-    status: "stub"
+    status: "active"
 
-  - id: github-copilot
-    name: "GitHub Copilot"
-    category: "AI Coding Assistant"
+  - id: grammarly
+    name: "Grammarly"
+    tier: "Tier 2"
+    category: "AI Writing Assistant"
     description: >
-      AI coding assistant used by Contrast Security engineering teams for
-      internal software development. Not used in any customer-facing product feature.
+      AI-powered writing assistant used by approved Contrast team members for
+      business communications, documentation, and content drafting. Requires
+      Procurement approval before use.
     used_in:
-      - "Internal engineering (all engineering teams)"
-    data_processed: "Internal source code and development context"
+      - "Business communications and documentation (approved team members)"
+    data_processed: "Text content of written communications submitted for review"
     controls:
-      - "GitHub Copilot Business tier: code is not used to train GitHub or OpenAI models"
-      - "Governed by GitHub Copilot Business Data Protection Terms"
-      - "All suggestions reviewed by engineers before use"
+      - "Tier 2 Restricted — Procurement approval required before use"
+      - "No confidential customer data or source code permitted"
+      - "Governed by Grammarly Business Data Processing Agreement"
+    website: "https://grammarly.com"
+    status: "active"
+
+  - id: nooks
+    name: "Nooks Communications"
+    tier: "Tier 2"
+    category: "AI Sales Platform"
+    description: >
+      AI-powered sales development platform supporting Contrast's SDR workflows with
+      automated prospecting, call coaching, and pipeline management capabilities.
+    used_in:
+      - "Sales Development (SDR workflows)"
+    data_processed: "Prospect contact data, call recordings, sales activity data"
+    controls:
+      - "Tier 2 Restricted — Procurement approval required before use"
+      - "Governed by Nooks Data Processing Agreement"
+      - "Data limited to sales team use cases"
+    website: "https://nooks.in"
+    status: "active"
+
+  - id: orum
+    name: "Orum"
+    tier: "Tier 2"
+    category: "AI Sales Platform"
+    description: >
+      AI-powered parallel dialer and sales engagement platform used by Contrast's
+      sales teams to increase outreach efficiency and call throughput.
+    used_in:
+      - "Sales team outreach workflows"
+    data_processed: "Prospect contact data, call recordings"
+    controls:
+      - "Tier 2 Restricted — Procurement approval required before use"
+      - "Governed by Orum Data Processing Agreement"
+    website: "https://orum.io"
+    status: "active"
+
+  - id: snowflake
+    name: "Snowflake"
+    tier: "Tier 2"
+    category: "Data Platform"
+    description: >
+      Cloud data platform with AI and ML capabilities (Snowflake Cortex AI) used
+      for business intelligence, data analytics, and operational reporting.
+    used_in:
+      - "Data analytics, business intelligence, and reporting"
+    data_processed: "Business metrics, operational data, product usage analytics"
+    controls:
+      - "Tier 2 Restricted — Procurement approval required before use"
+      - "Governed by Snowflake Data Processing Addendum"
+      - "Data processed within contracted cloud regions"
+    website: "https://snowflake.com"
+    status: "active"
+
+  - id: cubicsquared
+    name: "CubicSquared"
+    tier: "Tier 2"
+    category: "AI Business Services"
+    description: >
+      AI-powered business services platform used by approved Contrast teams for
+      specific operational workflows under Restricted tier policy.
+    used_in:
+      - "Specific operational workflows (Procurement-approved)"
+    data_processed: "Business process data relevant to approved workflows"
+    controls:
+      - "Tier 2 Restricted — Procurement approval required before use"
+      - "Governed by vendor Data Processing Agreement"
+    status: "active"
+
+  - id: github
+    name: "GitHub"
+    subtitle: "Copilot, Actions, and Security Features"
+    tier: "Tier 2"
+    category: "AI Development Tools"
+    description: >
+      Software development platform providing AI-powered coding assistance (GitHub
+      Copilot), automated CI/CD workflows (Actions), and security scanning across
+      Contrast Security's engineering organizations. Used across multiple Contrast
+      GitHub organizations.
+    used_in:
+      - "All engineering teams across Contrast Security GitHub organizations"
+    data_processed: "Source code, pull requests, CI/CD pipeline data, development context"
+    controls:
+      - "Tier 2 Restricted — Procurement approval required for Copilot access"
+      - "GitHub Copilot Business: code is not used to train GitHub or OpenAI models"
+      - "Governed by GitHub Copilot Business Data Processing Terms"
+      - "All AI suggestions reviewed by engineers before use"
     website: "https://github.com/features/copilot"
-    status: "stub"
+    status: "active"
 
-  - id: datadog-ai
-    name: "Datadog AI"
-    category: "AI-Powered Observability"
+  - id: gong
+    name: "Gong"
+    subtitle: "with SCIM provisioning"
+    tier: "Tier 2"
+    category: "Revenue Intelligence"
     description: >
-      AI-powered observability and operations tooling used by Contrast infrastructure
-      and engineering teams for monitoring, anomaly detection, and incident response.
-      Not used in any customer-facing product feature.
+      AI-powered revenue intelligence platform used for sales call recording, analysis,
+      coaching, and pipeline forecasting. Provisioned via SCIM for identity management.
     used_in:
-      - "Infrastructure operations (all engineering teams)"
-    data_processed: "System metrics, application logs, distributed traces"
+      - "Sales and customer success teams"
+    data_processed: "Sales call recordings, email content, CRM activity, meeting transcripts"
     controls:
-      - "Governed by Datadog Data Processing Agreement"
-      - "Limited to Contrast infrastructure telemetry — no customer application data"
-    website: "https://www.datadoghq.com/"
-    status: "stub"
+      - "Tier 2 Restricted — Procurement approval required before use"
+      - "Governed by Gong Data Processing Agreement"
+      - "SCIM provisioning managed by Contrast IT for access control"
+    website: "https://gong.io"
+    status: "active"
+
+  - id: sugr-brand-design
+    name: "Sugr Brand Design Services"
+    tier: "Tier 2"
+    category: "Design Services"
+    description: >
+      Design agency using AI-assisted tools to deliver brand design and creative
+      services for Contrast Security marketing and brand initiatives.
+    used_in:
+      - "Marketing and brand design workflows"
+    data_processed: "Brand assets, design briefs, creative content"
+    controls:
+      - "Tier 2 Restricted — Procurement approval required before use"
+      - "Governed by vendor service agreement including data handling provisions"
+      - "No customer data shared with design vendor"
+    status: "active"
+
+  - id: praxis-sandler
+    name: "Praxis Growth Advisors / Sandler"
+    tier: "Tier 2"
+    category: "Sales Training"
+    description: >
+      Sales coaching, training, and advisory platform using AI-powered tools to
+      support Contrast's sales team development and performance improvement programs.
+    used_in:
+      - "Sales team training and performance development"
+    data_processed: "Sales performance data, training materials, coaching session data"
+    controls:
+      - "Tier 2 Restricted — Procurement approval required before use"
+      - "Governed by vendor service agreement"
+      - "No customer data shared with vendor"
+    status: "active"
+
+  - id: ollama
+    name: "Ollama"
+    tier: "Tier 2"
+    category: "Local AI Runtime"
+    description: >
+      Open-source local LLM runtime enabling approved Contrast team members to run
+      AI models entirely on-device. Data never leaves the local machine, providing
+      strong data isolation for sensitive workflows.
+    used_in:
+      - "Local development and internal tooling (approved technical team members)"
+    data_processed: "Local queries only — no data transmitted externally"
+    controls:
+      - "Tier 2 Restricted — Procurement approval required before use"
+      - "All inference runs locally on-device; no external network calls for model data"
+      - "No customer data permitted in local model prompts without explicit CISO approval"
+    website: "https://ollama.com"
+    status: "active"
 
 changelog:
+  - version: "1.1.0"
+    date: "2026-03-05"
+    changes:
+      - "Replaced all subprocessor stubs with full entries from the Generative AI Policy"
+      - "Published 17 AI subprocessors across Tier 1 (General Use) and Tier 2 (Restricted)"
+      - "Added four-tier policy definition legend (Tier 1 General Use through Tier 4 Prohibited)"
+      - "Added AI Ethics & Privacy Commitment section with four pillars and key metrics"
   - version: "1.0.0"
     date: "2026-03-05"
     changes:
       - "Initial public release of the Contrast Security AI Transparency page"
       - "Published 4 live product features: SmartFix, AI How to Fix, MCP Server, Customer Health Checker"
-      - "Published 4 AI subprocessors: Anthropic (Bedrock), Google Gemini, GitHub Copilot, Datadog AI"
       - "Framework alignment documented: NIST AI RMF, OWASP LLM Top 10, EU AI Act, ISO/IEC 42001"

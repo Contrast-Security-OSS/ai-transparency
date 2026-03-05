@@ -151,9 +151,33 @@ function renderFeatureCard(feature) {
   `;
 }
 
+function tierClass(tier) {
+  if (!tier) return '';
+  const n = tier.replace(/\D/g, '');
+  return `tier-${n}`;
+}
+
+function renderTierLegend(tierDefs) {
+  const sectionIntro = document.querySelector('#tab-subprocessors .section-intro');
+  if (!sectionIntro || !tierDefs) return;
+
+  const legendHtml = tierDefs
+    .filter(t => t.tier !== 'Tier 4') // Tier 4 = Prohibited; no entries on this page
+    .map(t => `
+      <div class="tier-legend-item">
+        <span class="tier-badge ${tierClass(t.tier)}">${escHtml(t.tier)}</span>
+        <span class="tier-legend-desc">
+          <strong>${escHtml(t.label)}</strong> — ${escHtml(t.description)}
+        </span>
+      </div>
+    `).join('');
+
+  sectionIntro.insertAdjacentHTML('afterend', `<div class="tier-legend">${legendHtml}</div>`);
+}
+
 function renderSubprocessorCard(sub) {
-  const statusLabel = sub.status === 'stub' ? 'Pending Full Disclosure' : 'Documented';
-  const statusClass = sub.status === 'stub' ? 'status-stub' : 'status-live';
+  const tierLabel = sub.tier || '';
+  const tierCls   = tierClass(sub.tier);
 
   const controlsHtml = (sub.controls || []).map(c =>
     `<li>${escHtml(c)}</li>`
@@ -163,22 +187,22 @@ function renderSubprocessorCard(sub) {
     `<span class="used-in-badge">${escHtml(u)}</span>`
   ).join('');
 
-  const stubNote = sub.status === 'stub'
-    ? `<p class="stub-note">Full subprocessor detail is pending. Contact <a href="mailto:${escHtml(appData.meta.contact_email)}">${escHtml(appData.meta.contact_label)}</a> for the current subprocessor list.</p>`
-    : '';
+  const searchText = [sub.name, sub.description, sub.category, sub.tier].join(' ').toLowerCase();
 
   return `
     <article class="card"
-      data-status="${escHtml(sub.status)}"
-      data-search="${escHtml((sub.name + ' ' + sub.description + ' ' + sub.category).toLowerCase())}">
+      data-status="${escHtml(sub.status || 'active')}"
+      data-tier="${escHtml(sub.tier || '')}"
+      data-search="${escHtml(searchText)}">
 
       <div class="card-header">
-        <span class="status-badge ${statusClass}">${statusLabel}</span>
-        <span class="category-badge">${escHtml(sub.category)}</span>
+        ${tierLabel ? `<span class="tier-badge ${tierCls}">${escHtml(tierLabel)}</span>` : ''}
+        <span class="category-badge">${escHtml(sub.category || '')}</span>
       </div>
 
       <div>
         <h3 class="card-title">${escHtml(sub.name)}</h3>
+        ${sub.subtitle ? `<p class="card-subtitle">${escHtml(sub.subtitle)}</p>` : ''}
       </div>
 
       <p class="card-description">${escHtml(sub.description)}</p>
@@ -200,8 +224,6 @@ function renderSubprocessorCard(sub) {
         <div class="section-label">Used In</div>
         <div class="used-in-list">${usedInHtml}</div>
       </div>` : ''}
-
-      ${stubNote}
 
       ${sub.website ? `
       <div class="frameworks-bar">
@@ -252,8 +274,11 @@ function filterCards(gridId, emptyId) {
     const searchText = (card.dataset.search || '');
     const cardStatus = (card.dataset.status || '');
 
+    const cardTier   = (card.dataset.tier   || '');
     const matchesSearch = !query || searchText.includes(query);
-    const matchesStatus = !statusFilter || cardStatus === statusFilter;
+    const matchesStatus = !statusFilter
+      || cardStatus === statusFilter
+      || cardTier   === statusFilter;
 
     if (matchesSearch && matchesStatus) {
       card.style.display = '';
@@ -370,6 +395,9 @@ async function init() {
     }
     const subCount = document.getElementById('subprocessors-count');
     if (subCount) subCount.textContent = subprocessors.length;
+
+    // Tier legend
+    renderTierLegend(appData.tier_definitions || []);
 
     // Changelog
     renderChangelog(appData.changelog || []);
