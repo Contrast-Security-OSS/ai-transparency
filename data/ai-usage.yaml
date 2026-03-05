@@ -7,7 +7,7 @@ meta:
     third-party AI service we rely on — including what data is processed, what
     controls are in place, and which risk frameworks we align to.
   last_updated: "2026-03-05"
-  version: "1.1.0"
+  version: "1.2.0"
   contact_email: "privacy@contrastsecurity.com"
   contact_label: "privacy@contrastsecurity.com"
 
@@ -21,7 +21,7 @@ commitment:
   stats:
     - label: "Data Used for Training"
       value: "0"
-    - label: "SOC 2 Type II Compliant"
+    - label: "SOC 2 Type II Attested"
       value: "Yes"
     - label: "NIST AI RMF Aligned"
       value: "Yes"
@@ -47,7 +47,7 @@ commitment:
       body: >
         We are committed to being open-book about our AI supply chain. Whether we are
         using Google Gemini, Anthropic via AWS Bedrock, or other vetted models, we
-        disclose our sub-processors and the specific security guardrails used to keep
+        disclose our third-party AI tools and the specific security guardrails used to keep
         your data protected.
     - number: 4
       title: "Rigorous Security Guardrails"
@@ -71,9 +71,6 @@ frameworks:
   - id: eu-ai-act
     name: "EU AI Act"
     url: "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689"
-  - id: iso-42001
-    name: "ISO/IEC 42001"
-    url: "https://www.iso.org/standard/81230.html"
 
 product_features:
   - id: smartfix
@@ -128,7 +125,6 @@ product_features:
     frameworks:
       - nist-ai-rmf
       - owasp-llm-top10
-      - eu-ai-act
 
   - id: mcp-server
     name: "MCP Server"
@@ -233,7 +229,7 @@ subprocessors:
     controls:
       - "Governed by DarkTrace Master Services Agreement and Data Processing Agreement"
       - "Data limited to Contrast infrastructure telemetry — no customer application data"
-      - "SOC 2 Type II certified vendor"
+      - "SOC 2 Type II attested vendor"
     website: "https://darktrace.com"
     status: "active"
 
@@ -284,9 +280,10 @@ subprocessors:
     tier: "Tier 2"
     category: "AI / LLM"
     description: >
-      Anthropic's Claude models accessed exclusively via AWS Bedrock. Used for
-      AI-powered remediation features in Contrast products, with enterprise-grade
-      zero-retention data protection.
+      Anthropic's Claude models, as used in our products, are accessed exclusively via a
+      self-hosted AWS Bedrock. Used for AI-powered remediation features in Contrast products,
+      with enterprise-grade zero-retention data protection. Some business units may use
+      Anthropic's public offering for normal business operations.
     used_in:
       - "AI How to Fix (Intelligent Remediation Guidance)"
       - "SmartFix (GitHub Action) — default provider"
@@ -511,6 +508,13 @@ subprocessors:
     status: "active"
 
 changelog:
+  - version: "1.2.0"
+    date: "2026-03-05"
+    changes:
+      - "Compliance corrections: SOC 2 updated to attestation language throughout (not a certification)"
+      - "Removed ISO/IEC 42001 from framework references — certification not yet held"
+      - "Renamed AI Subprocessors section to Third-Party AI Tools to avoid confusion with legal subprocessor obligations"
+      - "Added opt-in disclosure to AI in Products section"
   - version: "1.1.0"
     date: "2026-03-05"
     changes:
@@ -523,4 +527,4 @@ changelog:
     changes:
       - "Initial public release of the Contrast Security AI Transparency page"
       - "Published 4 live product features: SmartFix, AI How to Fix, MCP Server, Customer Health Checker"
-      - "Framework alignment documented: NIST AI RMF, OWASP LLM Top 10, EU AI Act, ISO/IEC 42001"
+      - "Framework alignment documented: NIST AI RMF, OWASP LLM Top 10, EU AI Act"
