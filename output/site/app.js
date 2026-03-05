@@ -357,7 +357,7 @@ function renderMeta(meta) {
   const contactEl = document.getElementById('footer-contact');
   if (contactEl && meta.contact_email) {
     contactEl.href = `mailto:${meta.contact_email}`;
-    contactEl.textContent = 'Contact Security Team';
+    contactEl.textContent = 'Contact Privacy';
   }
 
   const yearEl = document.getElementById('footer-year');

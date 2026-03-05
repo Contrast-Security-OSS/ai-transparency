@@ -8,8 +8,8 @@ meta:
     controls are in place, and which risk frameworks we align to.
   last_updated: "2026-03-05"
   version: "1.1.0"
-  contact_email: "security@contrastsecurity.com"
-  contact_label: "security@contrastsecurity.com"
+  contact_email: "privacy@contrastsecurity.com"
+  contact_label: "privacy@contrastsecurity.com"
 
 commitment:
   heading: "Our AI Ethics & Privacy Commitment"
