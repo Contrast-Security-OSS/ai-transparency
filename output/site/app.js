@@ -265,22 +265,15 @@ function filterCards(gridId, emptyId) {
   if (!grid) return;
 
   const query = (document.getElementById('search-input').value || '').toLowerCase().trim();
-  const statusFilter = (document.getElementById('status-filter').value || '').toLowerCase();
 
   const cards = grid.querySelectorAll('.card');
   let visibleCount = 0;
 
   cards.forEach(card => {
     const searchText = (card.dataset.search || '');
-    const cardStatus = (card.dataset.status || '');
-
-    const cardTier   = (card.dataset.tier   || '');
     const matchesSearch = !query || searchText.includes(query);
-    const matchesStatus = !statusFilter
-      || cardStatus === statusFilter
-      || cardTier   === statusFilter;
 
-    if (matchesSearch && matchesStatus) {
+    if (matchesSearch) {
       card.style.display = '';
       visibleCount++;
     } else {
@@ -336,13 +329,8 @@ function initTabs() {
 // ── Search & Filter ──────────────────────────────────────────
 function initSearch() {
   const searchInput = document.getElementById('search-input');
-  const statusFilter = document.getElementById('status-filter');
-
   if (searchInput) {
     searchInput.addEventListener('input', applyFilters);
-  }
-  if (statusFilter) {
-    statusFilter.addEventListener('change', applyFilters);
   }
 }
 
