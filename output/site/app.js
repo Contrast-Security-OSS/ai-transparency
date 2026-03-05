@@ -32,6 +32,46 @@ function getFramework(id) {
 
 // ── Renderers ────────────────────────────────────────────────
 
+function renderCommitment(commitment) {
+  if (!commitment) return;
+
+  const introEl = document.getElementById('commitment-intro');
+  if (introEl) introEl.textContent = commitment.intro || '';
+
+  // Stats strip
+  const strip = document.getElementById('stats-strip');
+  if (strip && commitment.stats) {
+    strip.innerHTML = commitment.stats.map(s => `
+      <div class="stat-item">
+        <span class="stat-value">${escHtml(s.value)}</span>
+        <span class="stat-label">${escHtml(s.label)}</span>
+      </div>
+    `).join('');
+  }
+
+  // Pillars grid
+  const grid = document.getElementById('pillars-grid');
+  if (grid && commitment.pillars) {
+    grid.innerHTML = commitment.pillars.map(p => {
+      const guardrailsHtml = (p.guardrails || []).map(g => `
+        <li>
+          <span class="guardrail-label">${escHtml(g.label)}:</span>
+          ${escHtml(g.detail)}
+        </li>
+      `).join('');
+
+      return `
+        <div class="pillar-card">
+          <span class="pillar-number">${escHtml(String(p.number))}</span>
+          <h3 class="pillar-title">${escHtml(p.title)}</h3>
+          <p class="pillar-body">${escHtml(p.body)}</p>
+          ${guardrailsHtml ? `<ul class="guardrails-list">${guardrailsHtml}</ul>` : ''}
+        </div>
+      `;
+    }).join('');
+  }
+}
+
 function renderFrameworkStrip(frameworks) {
   const strip = document.getElementById('framework-strip');
   if (!strip || !frameworks) return;
@@ -301,6 +341,9 @@ async function init() {
 
     // Meta
     renderMeta(appData.meta || {});
+
+    // Commitment section
+    renderCommitment(appData.commitment || null);
 
     // Framework strip in header
     renderFrameworkStrip(appData.frameworks || []);

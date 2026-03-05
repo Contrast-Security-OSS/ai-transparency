@@ -11,6 +11,56 @@ meta:
   contact_email: "security@contrastsecurity.com"
   contact_label: "security@contrastsecurity.com"
 
+commitment:
+  heading: "Our AI Ethics & Privacy Commitment"
+  intro: >
+    At Contrast Security, our mission is to make the world's software secure. As we
+    integrate Agentic AI and Large Language Models into the Contrast Runtime Security
+    Platform, we hold ourselves to a "Security-First, Privacy-Always" standard. We
+    believe that AI should be a force multiplier for teams, not a source of new risk.
+  stats:
+    - label: "Data Used for Training"
+      value: "0"
+    - label: "SOC 2 Type II Compliant"
+      value: "Yes"
+    - label: "NIST AI RMF Aligned"
+      value: "Yes"
+    - label: "Human Review Required"
+      value: "Always"
+  pillars:
+    - number: 1
+      title: "Your Data is Not Our Training Manual"
+      body: >
+        We do not use your proprietary source code, vulnerability data, or Contrast
+        Graph insights to train third-party AI models. Any data processed by our AI
+        features is handled via enterprise-grade, sandboxed instances with Zero Data
+        Retention policies where available.
+    - number: 2
+      title: "The Human-in-the-Loop Mandate"
+      body: >
+        AI is a powerful co-pilot, but at Contrast, the developer and the security
+        researcher remain the pilots. Our AI-generated remediation suggestions are
+        designed to be reviewed, tested, and validated by humans. We provide the
+        context; you provide the command.
+    - number: 3
+      title: "Radical Transparency"
+      body: >
+        We are committed to being open-book about our AI supply chain. Whether we are
+        using Google Gemini, Anthropic via AWS Bedrock, or other vetted models, we
+        disclose our sub-processors and the specific security guardrails used to keep
+        your data protected.
+    - number: 4
+      title: "Rigorous Security Guardrails"
+      body: >
+        Every AI feature we ship undergoes a specialized AI Risk Assessment.
+      guardrails:
+        - label: "Prompt Injection Testing"
+          detail: "Proactively defending against adversarial inputs."
+        - label: "Output Scanning"
+          detail: "Ensuring AI-generated code fixes don't introduce new vulnerabilities."
+        - label: "PII Masking"
+          detail: "Automatically redacting sensitive information before it reaches an LLM endpoint."
+
 frameworks:
   - id: nist-ai-rmf
     name: "NIST AI RMF"
