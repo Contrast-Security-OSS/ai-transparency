@@ -12,53 +12,53 @@ meta:
   contact_label: "privacy@contrastsecurity.com"
 
 commitment:
-  heading: "Our AI Ethics & Privacy Commitment"
+  heading: "Our AI ethics & privacy commitment"
   intro: >
     At Contrast Security, our mission is to make the world's software secure. As we
-    integrate Agentic AI and Large Language Models into the Contrast Runtime Security
-    Platform, we hold ourselves to a "Security-First, Privacy-Always" standard. We
+    integrate Agentic AI and large language models (LLMs) into the Contrast runtime security
+    platform (RSP), we hold ourselves to a "Security-First, Privacy-Always" standard. We
     believe that AI should be a force multiplier for teams, not a source of new risk.
   stats:
-    - label: "Data Used for Training"
+    - label: "Data used for training"
       value: "0"
-    - label: "SOC 2 Type II Attested"
+    - label: "SOC 2 Type II attested"
       value: "Yes"
-    - label: "NIST AI RMF Aligned"
+    - label: "NIST AI RMF aligned"
       value: "Yes"
-    - label: "Human Review Required"
+    - label: "Human review required"
       value: "Always"
   pillars:
     - number: 1
-      title: "Your Data is Not Our Training Manual"
+      title: "Your data is not our training manual"
       body: >
         We do not use your proprietary source code, vulnerability data, or Contrast
         Graph insights to train third-party AI models. Any data processed by our AI
         features is handled via enterprise-grade, sandboxed instances with Zero Data
         Retention policies where available.
     - number: 2
-      title: "The Human-in-the-Loop Mandate"
+      title: "The human-in-the-loop mandate"
       body: >
         AI is a powerful co-pilot, but at Contrast, the developer and the security
         researcher remain the pilots. Our AI-generated remediation suggestions are
         designed to be reviewed, tested, and validated by humans. We provide the
         context; you provide the command.
     - number: 3
-      title: "Radical Transparency"
+      title: "Radical transparency"
       body: >
         We are committed to being open-book about our AI supply chain. Whether we are
         using Google Gemini, Anthropic via AWS Bedrock, or other vetted models, we
         disclose our third-party AI tools and the specific security guardrails used to keep
         your data protected.
     - number: 4
-      title: "Rigorous Security Guardrails"
+      title: "Rigorous security guardrails"
       body: >
         Every AI feature we ship undergoes a specialized AI Risk Assessment.
       guardrails:
-        - label: "Prompt Injection Testing"
+        - label: "Prompt injection testing"
           detail: "Proactively defending against adversarial inputs."
-        - label: "Output Scanning"
+        - label: "Output scanning"
           detail: "Ensuring AI-generated code fixes don't introduce new vulnerabilities."
-        - label: "PII Masking"
+        - label: "PII masking"
           detail: "Automatically redacting sensitive information before it reaches an LLM endpoint."
 
 frameworks:
@@ -180,7 +180,7 @@ product_features:
 
 tier_definitions:
   - tier: "Tier 1"
-    label: "General Use"
+    label: "General use"
     description: "Approved for all employees for productivity and writing. No procurement approval required."
   - tier: "Tier 2"
     label: "Restricted"
@@ -277,7 +277,7 @@ subprocessors:
   - id: anthropic-claude-bedrock
     name: "Anthropic Claude"
     subtitle: "via AWS Bedrock"
-    tier: "Tier 2"
+    tier: "Tier 1"
     category: "AI / LLM"
     description: >
       Anthropic's Claude models, as used in our products, are accessed exclusively via a
@@ -289,6 +289,7 @@ subprocessors:
       - "SmartFix (GitHub Action) — default provider"
     data_processed: "Vulnerability assessment data, code context, CWE classifications"
     controls:
+      - "Tier 1 General Use — approved for all employees; no Procurement approval required"
       - "Zero data retention: data is not retained by Anthropic after inference"
       - "No customer data is used to train Anthropic models"
       - "All traffic routed through AWS Bedrock — no direct calls to Anthropic APIs"
