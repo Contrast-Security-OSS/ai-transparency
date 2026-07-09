@@ -6,8 +6,8 @@ meta:
     intelligence. This page documents every AI feature in our products and every
     third-party AI service we rely on — including what data is processed, what
     controls are in place, and which risk frameworks we align to.
-  last_updated: "2026-03-05"
-  version: "1.2.0"
+  last_updated: "2026-07-09"
+  version: "1.3.0"
   contact_email: "privacy@contrastsecurity.com"
   contact_label: "privacy@contrastsecurity.com"
 
@@ -509,6 +509,12 @@ subprocessors:
     status: "active"
 
 changelog:
+  - version: "1.3.0"
+    date: "2026-07-09"
+    changes:
+      - "Promoted Anthropic Claude (via AWS Bedrock) from Tier 2 Restricted to Tier 1 General Use"
+      - "Expanded terminology: 'Large Language Models' to 'large language models (LLMs)' and 'Contrast Runtime Security Platform' to 'Contrast runtime security platform (RSP)'"
+      - "Applied sentence case to all headings, pillar titles, stat labels, and guardrail labels throughout"
   - version: "1.2.0"
     date: "2026-03-05"
     changes:
