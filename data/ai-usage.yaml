@@ -7,7 +7,7 @@ meta:
     third-party AI service we rely on — including what data is processed, what
     controls are in place, and which risk frameworks we align to.
   last_updated: "2026-09-30"
-  version: "1.4.0"
+  version: "1.5.0"
   contact_email: "privacy@contrastsecurity.com"
   contact_label: "privacy@contrastsecurity.com"
 
@@ -148,6 +148,35 @@ product_features:
       - "All AI processing occurs with the customer's chosen provider under the customer's data agreements"
       - "Customer controls which data fields are accessible via MCP configuration"
       - "MCP access requires authenticated Contrast credentials"
+    frameworks:
+      - nist-ai-rmf
+      - owasp-llm-top10
+
+  - id: contrast-code-ai-triage
+    name: "Contrast Code"
+    subtitle: "AI Triage"
+    description: >
+      AI-powered triage of SAST findings surfaced by Contrast Code. For each finding,
+      the model analyzes source code and finding metadata to classify it as a likely
+      true or false positive, produce a justification, and document the work performed.
+      Reduces developer noise by automatically flagging false positives for review,
+      while enriching confirmed findings with runtime context from the Contrast platform.
+    model_provider: "Anthropic Claude (AWS Bedrock) or Customer BYOD"
+    data_inputs:
+      - "Source code snippets surrounding the finding"
+      - "SAST finding metadata (vulnerability type, location, severity)"
+    data_outputs:
+      - "True/false positive classification"
+      - "Justification for the classification"
+      - "Summary of work performed by the model"
+    human_in_loop: true
+    human_in_loop_detail: "Developers review AI triage output before any finding is closed. No finding is automatically dismissed without human approval."
+    status: "live"
+    controls:
+      - "Customer BYOD supported: bring your own API key — data goes to your provider under your agreements"
+      - "Zero data retention via AWS Bedrock: source code and finding data are not stored by Anthropic after inference"
+      - "No customer data is used to train Anthropic models"
+      - "Human developer review is required before any finding is closed"
     frameworks:
       - nist-ai-rmf
       - owasp-llm-top10
@@ -317,6 +346,7 @@ subprocessors:
       - "AI How to Fix (Intelligent Remediation Guidance)"
       - "SmartFix (GitHub Action) — default provider"
       - "CVE Shield (internal shield definition authoring)"
+      - "Contrast Code AI Triage — default provider"
     data_processed: "Vulnerability assessment data, code context, CWE classifications"
     controls:
       - "Tier 1 General Use — approved for all employees; no Procurement approval required"
@@ -539,6 +569,11 @@ subprocessors:
     status: "active"
 
 changelog:
+  - version: "1.5.0"
+    date: "2026-09-30"
+    changes:
+      - "Added Contrast Code AI Triage product card: AI-powered SAST finding triage (Anthropic Claude via AWS Bedrock or Customer BYOD)"
+      - "Updated Anthropic Claude (via AWS Bedrock) subprocessor entry to include Contrast Code AI Triage in used_in"
   - version: "1.4.0"
     date: "2026-09-30"
     changes:
