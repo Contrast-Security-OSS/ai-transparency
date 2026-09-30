@@ -6,8 +6,8 @@ meta:
     intelligence. This page documents every AI feature in our products and every
     third-party AI service we rely on — including what data is processed, what
     controls are in place, and which risk frameworks we align to.
-  last_updated: "2026-07-09"
-  version: "1.3.0"
+  last_updated: "2026-09-30"
+  version: "1.4.0"
   contact_email: "privacy@contrastsecurity.com"
   contact_label: "privacy@contrastsecurity.com"
 
@@ -152,6 +152,35 @@ product_features:
       - nist-ai-rmf
       - owasp-llm-top10
 
+  - id: cve-shield
+    name: "CVE Shield"
+    subtitle: "Runtime CVE Exploitation Prevention"
+    description: >
+      AI-assisted internal tooling used by Contrast's security research team to identify
+      the specific code locations within vulnerable libraries that are susceptible to a
+      given CVE. The AI analyzes CVE metadata and library method signatures to generate
+      shield definitions — precise capability containment rules distributed to the
+      Contrast agent to micro-sandbox vulnerable code at runtime. No customer code or
+      customer data is processed by the AI model.
+    model_provider: "Anthropic Claude (AWS Bedrock)"
+    data_inputs:
+      - "CVE metadata and vulnerability research data (internal only)"
+      - "Library method signatures and SBOM data (internal only)"
+    data_outputs:
+      - "Shield definitions: vulnerable method identifiers and capability containment rules"
+    human_in_loop: true
+    human_in_loop_detail: "Contrast security researchers review and approve all AI-generated shield definitions before they are published and distributed to customer agents."
+    status: "live"
+    controls:
+      - "No customer code or customer data is processed by the AI model"
+      - "All shield definitions are reviewed and approved by Contrast security researchers before publication"
+      - "Zero data retention via AWS Bedrock: data is not stored by Anthropic after inference"
+      - "No internal data is used to train Anthropic models"
+      - "Shield definitions are distributed to agents via a hardened internal S3 pipeline"
+    frameworks:
+      - nist-ai-rmf
+      - owasp-llm-top10
+
   - id: customer-health-checker
     name: "Customer Health Checker"
     subtitle: "Internal Customer Support Tool"
@@ -287,6 +316,7 @@ subprocessors:
     used_in:
       - "AI How to Fix (Intelligent Remediation Guidance)"
       - "SmartFix (GitHub Action) — default provider"
+      - "CVE Shield (internal shield definition authoring)"
     data_processed: "Vulnerability assessment data, code context, CWE classifications"
     controls:
       - "Tier 1 General Use — approved for all employees; no Procurement approval required"
@@ -509,6 +539,11 @@ subprocessors:
     status: "active"
 
 changelog:
+  - version: "1.4.0"
+    date: "2026-09-30"
+    changes:
+      - "Added CVE Shield product card: AI-assisted internal tooling for shield definition authoring (Anthropic Claude via AWS Bedrock)"
+      - "Updated Anthropic Claude (via AWS Bedrock) subprocessor entry to include CVE Shield in used_in"
   - version: "1.3.0"
     date: "2026-07-09"
     changes:
