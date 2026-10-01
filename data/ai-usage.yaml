@@ -159,8 +159,8 @@ product_features:
       AI-powered triage of SAST findings surfaced by Contrast Code. For each finding,
       the model analyzes source code and finding metadata to classify it as a likely
       true or false positive, produce a justification, and document the work performed.
-      Reduces developer noise by automatically flagging false positives for review,
-      while enriching confirmed findings with runtime context from the Contrast platform.
+      Findings classified as false positives are automatically closed to reduce
+      developer noise.
     model_provider: "Anthropic Claude (AWS Bedrock) or Customer BYOD"
     data_inputs:
       - "Source code snippets surrounding the finding"
@@ -169,14 +169,13 @@ product_features:
       - "True/false positive classification"
       - "Justification for the classification"
       - "Summary of work performed by the model"
-    human_in_loop: true
-    human_in_loop_detail: "Developers review AI triage output before any finding is closed. No finding is automatically dismissed without human approval."
+    human_in_loop: false
+    human_in_loop_detail: "False-positive findings are automatically closed by the AI without requiring human review."
     status: "live"
     controls:
       - "Customer BYOD supported: bring your own API key — data goes to your provider under your agreements"
       - "Zero data retention via AWS Bedrock: source code and finding data are not stored by Anthropic after inference"
       - "No customer data is used to train Anthropic models"
-      - "Human developer review is required before any finding is closed"
     frameworks:
       - nist-ai-rmf
       - owasp-llm-top10
@@ -198,11 +197,11 @@ product_features:
     data_outputs:
       - "Shield definitions: vulnerable method identifiers and capability containment rules"
     human_in_loop: true
-    human_in_loop_detail: "Contrast security researchers review and approve all AI-generated shield definitions before they are published and distributed to customer agents."
+    human_in_loop_detail: "Contrast researchers review and approve all AI-generated shield definitions before they are published and distributed to customer agents."
     status: "live"
     controls:
       - "No customer code or customer data is processed by the AI model"
-      - "All shield definitions are reviewed and approved by Contrast security researchers before publication"
+      - "All shield definitions are reviewed and approved by Contrast researchers before publication"
       - "Zero data retention via AWS Bedrock: data is not stored by Anthropic after inference"
       - "No internal data is used to train Anthropic models"
       - "Shield definitions are distributed to agents via a hardened internal S3 pipeline"
