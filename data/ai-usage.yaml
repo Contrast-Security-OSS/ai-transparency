@@ -6,8 +6,8 @@ meta:
     intelligence. This page documents every AI feature in our products and every
     third-party AI service we rely on — including what data is processed, what
     controls are in place, and which risk frameworks we align to.
-  last_updated: "2026-09-30"
-  version: "1.5.0"
+  last_updated: "2026-10-02"
+  version: "1.6.0"
   contact_email: "privacy@contrastsecurity.com"
   contact_label: "privacy@contrastsecurity.com"
 
@@ -161,7 +161,7 @@ product_features:
       true or false positive, produce a justification, and document the work performed.
       Findings classified as false positives are automatically closed to reduce
       developer noise.
-    model_provider: "Anthropic Claude (AWS Bedrock) or Customer BYOD"
+    model_provider: "Anthropic Claude (AWS Bedrock), Qwen (AWS Bedrock or self-hosted on Contrast EC2), or Customer BYOD"
     data_inputs:
       - "Source code snippets surrounding the finding"
       - "SAST finding metadata (vulnerability type, location, severity)"
@@ -174,8 +174,9 @@ product_features:
     status: "live"
     controls:
       - "Customer BYOD supported: bring your own API key — data goes to your provider under your agreements"
-      - "Zero data retention via AWS Bedrock: source code and finding data are not stored by Anthropic after inference"
-      - "No customer data is used to train Anthropic models"
+      - "When using AWS Bedrock: zero data retention — source code and finding data are not stored by the model provider after inference"
+      - "When using self-hosted Qwen on Contrast EC2: customer source code is processed on Contrast-managed infrastructure and does not leave Contrast's environment"
+      - "No customer data is used to train any model"
     frameworks:
       - nist-ai-rmf
       - owasp-llm-top10
@@ -190,7 +191,7 @@ product_features:
       shield definitions — precise capability containment rules distributed to the
       Contrast agent to micro-sandbox vulnerable code at runtime. No customer code or
       customer data is processed by the AI model.
-    model_provider: "Anthropic Claude (AWS Bedrock)"
+    model_provider: "Anthropic Claude (AWS Bedrock), Qwen (AWS Bedrock or self-hosted on Contrast EC2)"
     data_inputs:
       - "CVE metadata and vulnerability research data (internal only)"
       - "Library method signatures and SBOM data (internal only)"
@@ -202,8 +203,9 @@ product_features:
     controls:
       - "No customer code or customer data is processed by the AI model"
       - "All shield definitions are reviewed and approved by Contrast researchers before publication"
-      - "Zero data retention via AWS Bedrock: data is not stored by Anthropic after inference"
-      - "No internal data is used to train Anthropic models"
+      - "When using AWS Bedrock: zero data retention — data is not stored by the model provider after inference"
+      - "When using self-hosted Qwen on Contrast EC2: all inference runs on Contrast-managed infrastructure"
+      - "No internal data is used to train any model"
       - "Shield definitions are distributed to agents via a hardened internal S3 pipeline"
     frameworks:
       - nist-ai-rmf
@@ -568,6 +570,11 @@ subprocessors:
     status: "active"
 
 changelog:
+  - version: "1.6.0"
+    date: "2026-10-02"
+    changes:
+      - "Updated Contrast Code AI Triage and CVE Shield cards to add Qwen (AWS Bedrock or self-hosted on Contrast EC2) as an additional model option alongside Anthropic Claude"
+      - "Updated controls on both cards to document Bedrock vs. self-hosted data handling distinctions"
   - version: "1.5.0"
     date: "2026-09-30"
     changes:
