@@ -161,7 +161,7 @@ product_features:
       true or false positive, produce a justification, and document the work performed.
       Findings classified as false positives are automatically closed to reduce
       developer noise.
-    model_provider: "Anthropic Claude (AWS Bedrock), Qwen (AWS Bedrock or self-hosted on Contrast EC2), or Customer BYOD"
+    model_provider: "Anthropic Claude (AWS Bedrock) or Customer BYOD"
     data_inputs:
       - "Source code snippets surrounding the finding"
       - "SAST finding metadata (vulnerability type, location, severity)"
@@ -174,8 +174,7 @@ product_features:
     status: "live"
     controls:
       - "Customer BYOD supported: bring your own API key — data goes to your provider under your agreements"
-      - "When using AWS Bedrock: zero data retention — source code and finding data are not stored by the model provider after inference"
-      - "When using self-hosted Qwen on Contrast EC2: customer source code is processed on Contrast-managed infrastructure and does not leave Contrast's environment"
+      - "Zero data retention via AWS Bedrock: source code and finding data are not stored by Anthropic after inference"
       - "No customer data is used to train any model"
     frameworks:
       - nist-ai-rmf
@@ -370,8 +369,8 @@ subprocessors:
       to Alibaba's external DashScope API are used.
     used_in:
       - "CVE Shield (internal shield definition authoring)"
-      - "Contrast Code AI Triage"
-    data_processed: "CVE metadata and vulnerability research data (CVE Shield); customer source code snippets and SAST finding metadata (Contrast Code AI Triage)"
+      - "Internal code generation (Contrast engineering teams)"
+    data_processed: "CVE metadata, vulnerability research data, and internal code generation tasks — no customer data is processed"
     controls:
       - "Tier 2 Restricted — Procurement approval required before use"
       - "When via AWS Bedrock: zero data retention — data is not stored by the model provider after inference"
