@@ -358,6 +358,28 @@ subprocessors:
     website: "https://aws.amazon.com/bedrock/"
     status: "active"
 
+  - id: qwen
+    name: "Qwen"
+    subtitle: "via AWS Bedrock or self-hosted on Contrast EC2"
+    tier: "Tier 2"
+    category: "AI / LLM"
+    description: >
+      Qwen is a family of large language models developed by Alibaba Cloud. Used for
+      AI-powered security research and product features, accessed either via AWS Bedrock
+      or self-hosted on Contrast-managed EC2 infrastructure using vLLM. No connections
+      to Alibaba's external DashScope API are used.
+    used_in:
+      - "CVE Shield (internal shield definition authoring)"
+      - "Contrast Code AI Triage"
+    data_processed: "CVE metadata and vulnerability research data (CVE Shield); customer source code snippets and SAST finding metadata (Contrast Code AI Triage)"
+    controls:
+      - "Tier 2 Restricted — Procurement approval required before use"
+      - "When via AWS Bedrock: zero data retention — data is not stored by the model provider after inference"
+      - "When self-hosted on Contrast EC2: all inference runs on Contrast-managed infrastructure; data does not leave Contrast's environment"
+      - "No connections to Alibaba's DashScope external API — all inference is self-hosted or via AWS Bedrock"
+      - "No data is used to train Qwen models"
+    status: "active"
+
   - id: google-ai-studio
     name: "Google AI Studio"
     tier: "Tier 2"
