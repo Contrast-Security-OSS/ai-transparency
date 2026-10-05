@@ -6,8 +6,8 @@ meta:
     intelligence. This page documents every AI feature in our products and every
     third-party AI service we rely on — including what data is processed, what
     controls are in place, and which risk frameworks we align to.
-  last_updated: "2026-03-05"
-  version: "1.2.0"
+  last_updated: "2026-10-02"
+  version: "1.6.0"
   contact_email: "privacy@contrastsecurity.com"
   contact_label: "privacy@contrastsecurity.com"
 
@@ -152,6 +152,64 @@ product_features:
       - nist-ai-rmf
       - owasp-llm-top10
 
+  - id: contrast-code-ai-triage
+    name: "Contrast Code"
+    subtitle: "AI Triage"
+    description: >
+      AI-powered triage of SAST findings surfaced by Contrast Code. For each finding,
+      the model analyzes source code and finding metadata to classify it as a likely
+      true or false positive, produce a justification, and document the work performed.
+      Findings classified as false positives are automatically closed to reduce
+      developer noise.
+    model_provider: "Anthropic Claude (AWS Bedrock) or Customer BYOD"
+    data_inputs:
+      - "Source code snippets surrounding the finding"
+      - "SAST finding metadata (vulnerability type, location, severity)"
+    data_outputs:
+      - "True/false positive classification"
+      - "Justification for the classification"
+      - "Summary of work performed by the model"
+    human_in_loop: false
+    human_in_loop_detail: "False-positive findings are automatically closed by the AI without requiring human review."
+    status: "live"
+    controls:
+      - "Customer BYOD supported: bring your own API key — data goes to your provider under your agreements"
+      - "Zero data retention via AWS Bedrock: source code and finding data are not stored by Anthropic after inference"
+      - "No customer data is used to train any model"
+    frameworks:
+      - nist-ai-rmf
+      - owasp-llm-top10
+
+  - id: cve-shield
+    name: "CVE Shield"
+    subtitle: "Runtime CVE Exploitation Prevention"
+    description: >
+      AI-assisted internal tooling used by Contrast's security research team to identify
+      the specific code locations within vulnerable libraries that are susceptible to a
+      given CVE. The AI analyzes CVE metadata and library method signatures to generate
+      shield definitions — precise capability containment rules distributed to the
+      Contrast agent to micro-sandbox vulnerable code at runtime. No customer code or
+      customer data is processed by the AI model.
+    model_provider: "Anthropic Claude (AWS Bedrock), Qwen (AWS Bedrock or self-hosted on Contrast EC2)"
+    data_inputs:
+      - "CVE metadata and vulnerability research data (internal only)"
+      - "Library method signatures and SBOM data (internal only)"
+    data_outputs:
+      - "Shield definitions: vulnerable method identifiers and capability containment rules"
+    human_in_loop: true
+    human_in_loop_detail: "Contrast researchers review and approve all AI-generated shield definitions before they are published and distributed to customer agents."
+    status: "live"
+    controls:
+      - "No customer code or customer data is processed by the AI model"
+      - "All shield definitions are reviewed and approved by Contrast researchers before publication"
+      - "When using AWS Bedrock: zero data retention — data is not stored by the model provider after inference"
+      - "When using self-hosted Qwen on Contrast EC2: all inference runs on Contrast-managed infrastructure"
+      - "No internal data is used to train any model"
+      - "Shield definitions are distributed to agents via a hardened internal S3 pipeline"
+    frameworks:
+      - nist-ai-rmf
+      - owasp-llm-top10
+
   - id: customer-health-checker
     name: "Customer Health Checker"
     subtitle: "Internal Customer Support Tool"
@@ -287,6 +345,8 @@ subprocessors:
     used_in:
       - "AI How to Fix (Intelligent Remediation Guidance)"
       - "SmartFix (GitHub Action) — default provider"
+      - "CVE Shield (internal shield definition authoring)"
+      - "Contrast Code AI Triage — default provider"
     data_processed: "Vulnerability assessment data, code context, CWE classifications"
     controls:
       - "Tier 1 General Use — approved for all employees; no Procurement approval required"
@@ -295,6 +355,28 @@ subprocessors:
       - "All traffic routed through AWS Bedrock — no direct calls to Anthropic APIs"
       - "Governed by AWS Bedrock Data Processing Addendum"
     website: "https://aws.amazon.com/bedrock/"
+    status: "active"
+
+  - id: qwen
+    name: "Qwen"
+    subtitle: "via AWS Bedrock or self-hosted on Contrast EC2"
+    tier: "Tier 2"
+    category: "AI / LLM"
+    description: >
+      Qwen is a family of large language models developed by Alibaba Cloud. Used for
+      AI-powered security research and product features, accessed either via AWS Bedrock
+      or self-hosted on Contrast-managed EC2 infrastructure using vLLM. No connections
+      to Alibaba's external DashScope API are used.
+    used_in:
+      - "CVE Shield (internal shield definition authoring)"
+      - "Internal code generation (Contrast engineering teams)"
+    data_processed: "CVE metadata, vulnerability research data, and internal code generation tasks — no customer data is processed"
+    controls:
+      - "Tier 2 Restricted — Procurement approval required before use"
+      - "When via AWS Bedrock: zero data retention — data is not stored by the model provider after inference"
+      - "When self-hosted on Contrast EC2: all inference runs on Contrast-managed infrastructure; data does not leave Contrast's environment"
+      - "No connections to Alibaba's DashScope external API — all inference is self-hosted or via AWS Bedrock"
+      - "No data is used to train Qwen models"
     status: "active"
 
   - id: google-ai-studio
@@ -509,6 +591,27 @@ subprocessors:
     status: "active"
 
 changelog:
+  - version: "1.6.0"
+    date: "2026-10-02"
+    changes:
+      - "Updated Contrast Code AI Triage and CVE Shield cards to add Qwen (AWS Bedrock or self-hosted on Contrast EC2) as an additional model option alongside Anthropic Claude"
+      - "Updated controls on both cards to document Bedrock vs. self-hosted data handling distinctions"
+  - version: "1.5.0"
+    date: "2026-09-30"
+    changes:
+      - "Added Contrast Code AI Triage product card: AI-powered SAST finding triage (Anthropic Claude via AWS Bedrock or Customer BYOD)"
+      - "Updated Anthropic Claude (via AWS Bedrock) subprocessor entry to include Contrast Code AI Triage in used_in"
+  - version: "1.4.0"
+    date: "2026-09-30"
+    changes:
+      - "Added CVE Shield product card: AI-assisted internal tooling for shield definition authoring (Anthropic Claude via AWS Bedrock)"
+      - "Updated Anthropic Claude (via AWS Bedrock) subprocessor entry to include CVE Shield in used_in"
+  - version: "1.3.0"
+    date: "2026-07-09"
+    changes:
+      - "Promoted Anthropic Claude (via AWS Bedrock) from Tier 2 Restricted to Tier 1 General Use"
+      - "Expanded terminology: 'Large Language Models' to 'large language models (LLMs)' and 'Contrast Runtime Security Platform' to 'Contrast runtime security platform (RSP)'"
+      - "Applied sentence case to all headings, pillar titles, stat labels, and guardrail labels throughout"
   - version: "1.2.0"
     date: "2026-03-05"
     changes:
