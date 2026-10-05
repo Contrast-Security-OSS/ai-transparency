@@ -112,7 +112,7 @@ function renderFeatureCard(feature) {
        </div>`
     : `<div class="hitl-indicator hitl-no">
         <span class="hitl-icon">⚡</span>
-        <span>Automated — no human review step</span>
+        <span>Customer-supplied Human-in-the-loop</span>
        </div>`;
 
   return `
